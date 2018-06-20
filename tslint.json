@@ -1,5 +1,10 @@
 {
-  "extends": ["tslint:recommended", "tslint-react", "tslint-config-prettier"],
+  "extends": ["tslint-react"],
+  "rules": {
+    "interface-name" : [true, "never-prefix"],
+    "jsx-no-multiline-js": false,
+    "jsx-wrap-multiline": false
+  },
   "linterOptions": {
     "exclude": [
       "config/**/*.js",
