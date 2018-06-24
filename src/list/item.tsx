@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Task } from './index';
+import { Task } from './types';
 
 interface PropTypes {
   task: Task;

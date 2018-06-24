@@ -1,32 +1,32 @@
 import * as React from 'react';
-import * as uuid from 'uuid';
+import { Task } from './types';
 import Item from './item';
+import Modal from './add-task';
 import './style.css';
 
-export interface Task {
-  key: string;
-  text: string;
-  done: boolean;
-};
 
 interface StateType {
+  showModal: boolean;
   done: Task[];
   pending: Task[];
 }
 
-const createTask = (text: string, val = false) : Task => (
-  { key: uuid(), text, done: val}
-);
-
-const demo = () : StateType => ({
-  pending: [createTask('test'), createTask('test2'), createTask('test3')],
-  done: [createTask('test4', true), createTask('test25', true)],
-});
-
 class List extends React.Component<{}, StateType> {
-  state : StateType = demo();
+  state : StateType = { pending: [], done: [], showModal: false };
+
+  handleSubmit = (newTask: Task) => {
+    const { pending } = this.state;
+    this.setState({ pending: [...pending, newTask] });
+    this.toggleModal();
+  }
+
+  toggleModal = () => {
+    const { showModal } = this.state;
+    return this.setState({ showModal: !showModal });
+  };
+
   render() {
-    const { done, pending } = this.state;
+    const { done, pending, showModal } = this.state;
     return (
       <div className="to-do-list">
         <div className="table">
@@ -47,6 +47,11 @@ class List extends React.Component<{}, StateType> {
             </div>
           </div>
         </div>
+        { showModal && <Modal
+          onClose={this.toggleModal}
+          onSubmit={this.handleSubmit}
+        />}
+        <button onClick={this.toggleModal}>New task</button>
       </div>
     );
   }
